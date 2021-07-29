@@ -7,6 +7,7 @@ metadata:
     project: counter
 spec:
   serviceName: redis
+  {{ if .Values.persistance }}
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -16,6 +17,7 @@ spec:
         resources:
           requests:
             storage: 1Gi
+  {{ end }}
   selector:
     matchLabels:
       release: {{ .Release.Name }}
@@ -28,13 +30,16 @@ spec:
         project: counter
         app: redis
     spec:
+      {{ if .Values.persistance }}
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data
+      {{ end }}
       containers:
         - name: redis
           image: redis:alpine
+          {{ if .Values.persistance }}
           args:
             - redis-server
             - --appendonly
@@ -42,6 +47,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+          {{ end }}
           resources:
             requests:
               cpu: 30m

@@ -2,3 +2,4 @@
 host:
 # Optional
 replicas: 2
+persistance: false

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: counter
+description: A Helm chart example for ModernTV
+type: application
+version: 2021.07.29
